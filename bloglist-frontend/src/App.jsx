@@ -62,7 +62,7 @@ const App = () => {
       {
         (user === null) ?
           <LoginForm submit={handleLogin} username={username} setUsername={setUsername} password={password} setPassword={setPassword} /> :
-          <Bloglist user={user} blogs={blogs} logout={handleLogout} />
+          <Bloglist user={user} blogs={blogs} setBlogs={setBlogs} logout={handleLogout} />
       }
     </div>
   )

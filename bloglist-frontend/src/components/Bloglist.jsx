@@ -1,13 +1,16 @@
 import Blog from './Blog'
+import CreateBlog from './CreateBlog'
+import LoggedUser from './LoggedUser'
 
-const Bloglist = ({ user, blogs, logout }) => {
+const Bloglist = ({ user, blogs, setBlogs, logout }) => {
   return (
     <>
-      <p>{user.name} logged-in</p> <button onClick={logout}> Logout </button>
+      <LoggedUser user={user} logout={logout} />
       <h2> Blogs </h2>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
+      <CreateBlog user={user} blogs={blogs} setBlogs={setBlogs} />
     </>
   )
 }

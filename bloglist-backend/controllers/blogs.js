@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken')
 require('express-async-errors')
 
 blogsRouter.get('/', async (request, response) => {
-    const blogs = await Blog.find({}).populate('user', { username: 1 })
+    const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
     response.json(blogs)
 })
 
@@ -31,10 +31,12 @@ blogsRouter.post('/', async (request, response) => {
     })
 
     const newBlog = await blog.save()
+    const savedBlog = await newBlog.populate('user', { username: 1, name: 1 })
+
     user.blogs = user.blogs.concat(newBlog._id)
     await user.save()
 
-    response.status(201).json(newBlog)
+    response.status(201).json(savedBlog)
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
@@ -72,7 +74,10 @@ blogsRouter.put('/:id', async (request,response) => {
         user: body.user
     }
 
-    const newBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+    const newBlog = await Blog
+        .findByIdAndUpdate(request.params.id, blog, { new: true })
+        .populate('user', { username: 1, name: 1 })
+
     response.json(newBlog)
 })
 

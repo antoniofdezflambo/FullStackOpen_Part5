@@ -23,7 +23,7 @@ const Blog = ({ blog }) => {
 
   return (
     <div style={blogStyle}>
-      {blog.title} <button onClick={toggleDetails}>{buttonLabel}</button>
+      {blog.title} - {blog.author} <button onClick={toggleDetails}>{buttonLabel}</button>
       {(allDetails) ? <Details blog={blog} /> : ''}
     </div>
   )

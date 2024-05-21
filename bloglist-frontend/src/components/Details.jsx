@@ -3,7 +3,7 @@ const Details = ({ blog }) => {
     <div>
       <p>{blog.url}</p>
       <p>Likes: {blog.likes} <button>Like</button></p>
-      <p>{blog.author}</p>
+      <p>{blog.user.username}</p>
     </div>
   )
 }

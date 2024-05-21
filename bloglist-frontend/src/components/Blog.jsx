@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useState, useRef } from 'react'
 import Details from './Details'
 
 const Blog = ({ blog }) => {
   const [allDetails, setAllDetails] = useState(false)
   const [buttonLabel, setButtonLabel] = useState('View')
+
+  const blogRef = useRef()
 
   const blogStyle = {
     paddingTop: 10,
@@ -17,14 +19,10 @@ const Blog = ({ blog }) => {
     setAllDetails(!allDetails)
   }
 
-  useEffect(() => {
-    (allDetails) ? setButtonLabel('Hide') : setButtonLabel('View')
-  }, [allDetails])
-
   return (
     <div style={blogStyle}>
-      {blog.title} - {blog.author} <button onClick={toggleDetails}>{buttonLabel}</button>
-      {(allDetails) ? <Details blog={blog} /> : ''}
+      {blog.title} - {blog.author} <button onClick={toggleDetails}>{allDetails ? 'Hide' : 'View'}</button>
+      {(allDetails) ? <Details blog={blog} ref={blogRef} /> : ''}
     </div>
   )
 }

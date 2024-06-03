@@ -6,6 +6,7 @@ import Notification from './components/Notification'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -16,7 +17,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const [updateBlogs, setUpdateBlogs] = useState(false)
 
-  const notifications = {successMessage, errorMessage, setSuccessMessage, setErrorMessage}
+  const notifications = { successMessage, errorMessage, setSuccessMessage, setErrorMessage }
 
   useEffect(() => {
     blogService.getAll().then(blogs => {
@@ -36,7 +37,7 @@ const App = () => {
       setTimeout(() => {
         setSuccessMessage('')
       }, 5000)
-    } 
+    }
   }, [])
 
   const handleLogin = async (event) => {
@@ -73,7 +74,7 @@ const App = () => {
     setUsername('')
     setPassword('')
 
-    setSuccessMessage(`Logged out correctly`)
+    setSuccessMessage('Logged out correctly')
     setTimeout(() => {
       setSuccessMessage('')
     }, 5000)

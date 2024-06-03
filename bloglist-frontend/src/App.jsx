@@ -14,14 +14,17 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [successMessage, setSuccessMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const [updateBlogs, setUpdateBlogs] = useState(false)
 
   const notifications = {successMessage, errorMessage, setSuccessMessage, setErrorMessage}
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [])
+    blogService.getAll().then(blogs => {
+      const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
+      console.log(sortedBlogs)
+      setBlogs( sortedBlogs )
+    })
+  }, [updateBlogs])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -77,13 +80,17 @@ const App = () => {
     }, 5000)
   }
 
+  const changeUpdateBlogs = () => {
+    setUpdateBlogs(!updateBlogs)
+  }
+
   return (
     <div>
       <Notification successMessage={successMessage} errorMessage={errorMessage} />
       {
         (user === null) ?
           <LoginForm submit={handleLogin} username={username} setUsername={setUsername} password={password} setPassword={setPassword} /> :
-          <Bloglist user={user} blogs={blogs} setBlogs={setBlogs} logout={handleLogout} notifications={notifications} />
+          <Bloglist user={user} blogs={blogs} setBlogs={setBlogs} logout={handleLogout} notifications={notifications} updateBlogs={changeUpdateBlogs} />
       }
     </div>
   )

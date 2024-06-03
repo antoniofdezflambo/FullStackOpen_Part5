@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Details from './Details'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, updateBlogs }) => {
   const [allDetails, setAllDetails] = useState(false)
   const [blogDetails, setBlogDetails] = useState(blog)
 
@@ -19,6 +19,7 @@ const Blog = ({ blog }) => {
 
   const updateBlog = updatedBlog => {
     setBlogDetails(updatedBlog)
+    updateBlogs()
   }
 
   return (

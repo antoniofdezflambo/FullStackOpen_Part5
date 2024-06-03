@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Details from './Details'
+import PropTypes from 'prop-types'
 
 const Blog = ({ blog, updateBlogs, notifications }) => {
   const [allDetails, setAllDetails] = useState(false)
@@ -28,6 +29,12 @@ const Blog = ({ blog, updateBlogs, notifications }) => {
       {allDetails && <Details blog={blogDetails} updateBlog={updateBlog} updateBlogs={updateBlogs} notifications={notifications} />}
     </div>
   )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  updateBlogs: PropTypes.func.isRequired,
+  notifications: PropTypes.object.isRequired
 }
 
 export default Blog

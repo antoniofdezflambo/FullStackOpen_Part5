@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 import blogService from '../services/blogs'
 
 const Details = ({ blog, updateBlog, updateBlogs, notifications }) => {
@@ -42,6 +44,13 @@ const Details = ({ blog, updateBlog, updateBlogs, notifications }) => {
       <button onClick={remove}>Remove</button>
     </div>
   )
+}
+
+Details.propTypes = {
+  blog: PropTypes.object.isRequired,
+  updateBlog: PropTypes.func.isRequired,
+  updateBlogs: PropTypes.func.isRequired,
+  notifications: PropTypes.object.isRequired
 }
 
 export default Details

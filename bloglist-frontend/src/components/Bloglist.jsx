@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import PropTypes from 'prop-types'
 
 import Blog from './Blog'
 import CreateBlog from './CreateBlog'
@@ -21,6 +22,15 @@ const Bloglist = ({ user, blogs, setBlogs, logout, notifications, updateBlogs })
       </Togglable>
     </>
   )
+}
+
+Bloglist.propTypes = {
+  user: PropTypes.object.isRequired,
+  blogs: PropTypes.array.isRequired,
+  setBlogs: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
+  notifications: PropTypes.object.isRequired,
+  updateBlogs: PropTypes.func.isRequired
 }
 
 export default Bloglist

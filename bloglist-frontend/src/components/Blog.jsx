@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Details from './Details'
 
-const Blog = ({ blog, updateBlogs }) => {
+const Blog = ({ blog, updateBlogs, notifications }) => {
   const [allDetails, setAllDetails] = useState(false)
   const [blogDetails, setBlogDetails] = useState(blog)
 
@@ -25,7 +25,7 @@ const Blog = ({ blog, updateBlogs }) => {
   return (
     <div style={blogStyle}>
       {blog.title} - {blog.author} <button onClick={toggleDetails}>{allDetails ? 'Hide' : 'View'}</button>
-      {allDetails && <Details blog={blogDetails} updateBlog={updateBlog} />}
+      {allDetails && <Details blog={blogDetails} updateBlog={updateBlog} updateBlogs={updateBlogs} notifications={notifications} />}
     </div>
   )
 }

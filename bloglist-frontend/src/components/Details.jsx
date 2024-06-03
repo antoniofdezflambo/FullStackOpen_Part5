@@ -1,6 +1,6 @@
 import blogService from '../services/blogs'
 
-const Details = ({ blog, updateBlog }) => {
+const Details = ({ blog, updateBlog, updateBlogs, notifications }) => {
 
   const like = async (event) => {
     event.preventDefault()
@@ -20,11 +20,26 @@ const Details = ({ blog, updateBlog }) => {
       })
   }
 
+  const remove = async (event) => {
+    event.preventDefault()
+
+    if(window.confirm(`Remove blog "${blog.title}" by ${blog.author}?`)) {
+      await blogService
+        .remove(blog.id)
+        .then( () => {
+          updateBlogs()
+          notifications.setSuccessMessage('Blog deleted correctly')
+        })
+        .catch( () => notifications.setErrorMessage('Error: Cannot remove blog') )
+    }
+  }
+
   return (
     <div>
       <p>{blog.url}</p>
       <p>Likes: {blog.likes} <button onClick={like}>Like</button></p>
       <p>{blog.user.username}</p>
+      <button onClick={remove}>Remove</button>
     </div>
   )
 }

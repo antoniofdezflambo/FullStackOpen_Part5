@@ -24,7 +24,7 @@ const Blog = ({ blog, updateBlogs, notifications }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog'>
       {blog.title} - {blog.author} <button onClick={toggleDetails}>{allDetails ? 'Hide' : 'View'}</button>
       {allDetails && <Details blog={blogDetails} updateBlog={updateBlog} updateBlogs={updateBlogs} notifications={notifications} />}
     </div>

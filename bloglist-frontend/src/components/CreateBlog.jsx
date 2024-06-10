@@ -2,9 +2,8 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import blogService from '../services/blogs'
-import blogs from '../services/blogs'
 
-const CreateBlog = ({ blogs, setBlogs, notifications, blogList }) => {
+const CreateBlog = ({ blogs, setBlogs, notifications, blogList, createBlogTest }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -16,6 +15,11 @@ const CreateBlog = ({ blogs, setBlogs, notifications, blogList }) => {
       title: title,
       author: author,
       url: url,
+    }
+
+    if(createBlogTest) {
+      createBlogTest(newBlog)
+      return
     }
 
     blogService
@@ -50,6 +54,7 @@ const CreateBlog = ({ blogs, setBlogs, notifications, blogList }) => {
             type="text"
             value={title}
             name="Title"
+            placeholder='write title here'
             onChange={ ({ target }) => setTitle(target.value) }
           />
         </div>
@@ -59,6 +64,7 @@ const CreateBlog = ({ blogs, setBlogs, notifications, blogList }) => {
             type="text"
             value={author}
             name="Author"
+            placeholder='write author here'
             onChange={ ({ target }) => setAuthor(target.value) }
           />
         </div>
@@ -68,10 +74,11 @@ const CreateBlog = ({ blogs, setBlogs, notifications, blogList }) => {
             type="text"
             value={url}
             name="Url"
+            placeholder='write url here'
             onChange={ ({ target }) => setUrl(target.value) }
           />
         </div>
-        <button type="submit"> Create new blog </button>
+        <button type="submit">Create new blog</button>
       </form>
     </>
   )

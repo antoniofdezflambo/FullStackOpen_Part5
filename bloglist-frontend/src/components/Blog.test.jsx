@@ -41,7 +41,7 @@ describe('<Blog />', () => {
   test('if like button is clicked twice, event controller is called twice', async () => {
     const mockHandler = vi.fn()
 
-    container = render(<Blog blog={blog} updateBlogs={() => {}} notifications={{}} onLike={mockHandler} />)
+    container = render(<Blog blog={blog} updateBlogs={() => {}} notifications={{}} onLikeTest={mockHandler} />)
 
     const user = userEvent.setup()
 

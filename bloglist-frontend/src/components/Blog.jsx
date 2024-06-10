@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Details from './Details'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog, updateBlogs, notifications }) => {
+const Blog = ({ blog, updateBlogs, notifications, onLikeTest }) => {
   const [allDetails, setAllDetails] = useState(false)
   const [blogDetails, setBlogDetails] = useState(blog)
 
@@ -26,7 +26,7 @@ const Blog = ({ blog, updateBlogs, notifications }) => {
   return (
     <div style={blogStyle} className='blog'>
       {blog.title} - {blog.author} <button onClick={toggleDetails}>{allDetails ? 'Hide' : 'View'}</button>
-      {allDetails && <Details blog={blogDetails} updateBlog={updateBlog} updateBlogs={updateBlogs} notifications={notifications} />}
+      {allDetails && <Details blog={blogDetails} updateBlog={updateBlog} updateBlogs={updateBlogs} notifications={notifications} onLikeTest={onLikeTest} />}
     </div>
   )
 }

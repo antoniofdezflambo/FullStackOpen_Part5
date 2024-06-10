@@ -2,10 +2,15 @@ import PropTypes from 'prop-types'
 
 import blogService from '../services/blogs'
 
-const Details = ({ blog, updateBlog, updateBlogs, notifications }) => {
+const Details = ({ blog, updateBlog, updateBlogs, notifications, onLikeTest }) => {
 
   const like = async (event) => {
     event.preventDefault()
+
+    if(onLikeTest) {
+      onLikeTest()
+      return
+    }
 
     const updatedBlog = {
       title: blog.title,

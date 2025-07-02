@@ -60,8 +60,10 @@ const App = () => {
       }, 5000)
 
     } catch (exception) {
-      console.log('ERROR: ', exception)
-      // TODO: mostrar errores
+      setErrorMessage('Wrong credentials')
+      setTimeout(() => {
+        setErrorMessage('')
+      }, 5000)
     }
   }
 

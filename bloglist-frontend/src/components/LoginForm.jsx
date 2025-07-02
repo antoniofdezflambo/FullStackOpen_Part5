@@ -4,7 +4,7 @@ const LoginForm = ({ submit, username, setUsername, password, setPassword }) => 
   return (
     <form onSubmit={submit}>
       <div>
-        username
+        Username
         <input
           type="text"
           value={username}
@@ -13,7 +13,7 @@ const LoginForm = ({ submit, username, setUsername, password, setPassword }) => 
         />
       </div>
       <div>
-        password
+        Password
         <input
           type="password"
           value={password}
@@ -21,7 +21,7 @@ const LoginForm = ({ submit, username, setUsername, password, setPassword }) => 
           onChange={ ({ target }) => setPassword(target.value) }
         />
       </div>
-      <button type="sunmit"> Login </button>
+      <button type="submit"> Login </button>
     </form>
   )
 }

@@ -9,14 +9,13 @@ const loginWith = async (page, username, password) => {
 }
 
 const createBlog = async (page, title, author, url) => {
-  const newBlogButton = await page.getByRole('button', { name: 'New blog' })
-  await newBlogButton.click()
+  await page.getByRole('button', { name: 'New blog' }).click()
 
   const createButton = await page.getByRole('button', { name: 'Create new blog' })
 
-  await page.getByTestId('title').fill('Blog de prueba')
-  await page.getByTestId('author').fill('Autor de prueba')
-  await page.getByTestId('url').fill('http://testblog.com')
+  await page.getByTestId('title').fill(title)
+  await page.getByTestId('author').fill(author)
+  await page.getByTestId('url').fill(url)
   await createButton.click()
 }
 

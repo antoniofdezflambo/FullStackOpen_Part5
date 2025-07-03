@@ -49,8 +49,9 @@ const CreateBlog = ({ blogs, setBlogs, notifications, blogList, createBlogTest }
       <h3> Add Blog </h3>
       <form onSubmit={addBlog}>
         <div>
-        title:
+        Title:
           <input
+            data-testid="title"
             type="text"
             value={title}
             name="Title"
@@ -59,8 +60,9 @@ const CreateBlog = ({ blogs, setBlogs, notifications, blogList, createBlogTest }
           />
         </div>
         <div>
-        author:
+        Author:
           <input
+            data-testid="author"
             type="text"
             value={author}
             name="Author"
@@ -69,8 +71,9 @@ const CreateBlog = ({ blogs, setBlogs, notifications, blogList, createBlogTest }
           />
         </div>
         <div>
-        url:
+        Url:
           <input
+            data-testid="url"
             type="text"
             value={url}
             name="Url"

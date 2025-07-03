@@ -4,8 +4,8 @@ import { loginWith, createBlog } from './helper'
 
 describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
-    await request.post('http://localhost:5173/api/testing/reset')
-    await request.post('http://localhost:5173/api/users', {
+    await request.post('/api/testing/reset')
+    await request.post('/api/users', {
       data: {
         username: 'root',
         name: 'Superuser',
@@ -13,7 +13,7 @@ describe('Blog app', () => {
       }
     })
 
-    await page.goto('http://localhost:5173')
+    await page.goto('/')
   })
 
   test('Login form is shown', async ({ page }) => {
@@ -30,9 +30,8 @@ describe('Blog app', () => {
     test('succeeds with correct credentials', async ({ page }) => {
       await loginWith(page, 'root', 'password')
 
-      const notification = await page.locator('.success')
+      const notification = await page.locator('.success', { hasText: 'root logged correctly' })
       await expect(notification).toBeVisible()
-      await expect(notification).toHaveText('root logged correctly')
       await expect(notification).toHaveCSS('border-style', 'solid')
       await expect(notification).toHaveCSS('color', 'rgb(0, 128, 0)')
     })
@@ -40,9 +39,8 @@ describe('Blog app', () => {
     test('fails with wrong credentials', async ({ page }) => {
       await loginWith(page, 'root', 'wrongpassword')
 
-      const notification = await page.locator('.error')
+      const notification = await page.locator('.error', { hasText: 'Wrong credentials' })
       await expect(notification).toBeVisible()
-      await expect(notification).toHaveText('Wrong credentials')
       await expect(notification).toHaveCSS('border-style', 'solid')
       await expect(notification).toHaveCSS('color', 'rgb(255, 0, 0)')
     })
@@ -56,7 +54,9 @@ describe('Blog app', () => {
     test('a new blog can be created', async ({ page }) => {
       await createBlog(page, 'Blog de prueba', 'Autor de prueba', 'http://testblog.com')
 
-      const notification = await page.locator('.success')
+      await page.waitForTimeout(2000)
+
+      const notification = await page.locator('.success', { hasText: 'Blog added correctly' })
       await expect(notification).toBeVisible()
       await expect(notification).toHaveCSS('border-style', 'solid')
       await expect(notification).toHaveCSS('color', 'rgb(0, 128, 0)')
@@ -74,6 +74,20 @@ describe('Blog app', () => {
       await expect(page.getByText('http://testblog.com')).toBeVisible()
       await expect(page.getByText('Likes: 0')).toBeVisible()
       await expect(page.getByText('root')).toBeVisible()
+    })
+
+    test('a blog can be liked', async ({ page }) => {
+      await createBlog(page, 'Blog de prueba', 'Autor de prueba', 'http://testblog.com')
+
+      const createdBlog = await page.getByText('Blog de prueba - Autor de prueba').locator('..')
+      const viewDetails = await createdBlog.getByRole('button', { name: 'View' })
+      await viewDetails.click()
+
+      const likeButton = await page.getByRole('button', { name: 'Like' })
+      await likeButton.click()
+
+      const likesText = await page.getByText('Likes: 1')
+      await expect(likesText).toBeVisible()
     })
   })
 })

@@ -38,13 +38,13 @@ const Details = ({ blog, updateBlog, updateBlogs, notifications, onLikeTest }) =
           notifications.setSuccessMessage('Blog deleted correctly')
           setTimeout(() => {
             notifications.setSuccessMessage('')
-          }, 5000)
+          }, 1000)
         })
         .catch( () => {
           notifications.setErrorMessage('Error: Cannot remove blog')
           setTimeout(() => {
             notifications.setErrorMessage('')
-          }, 5000)
+          }, 1000)
         })
     }
   }

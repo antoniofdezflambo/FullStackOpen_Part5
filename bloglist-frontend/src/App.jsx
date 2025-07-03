@@ -36,7 +36,7 @@ const App = () => {
       setSuccessMessage(`${user.username} logged correctly`)
       setTimeout(() => {
         setSuccessMessage('')
-      }, 5000)
+      }, 1000)
     }
   }, [])
 
@@ -57,13 +57,13 @@ const App = () => {
       setSuccessMessage(`${user.username} logged correctly`)
       setTimeout(() => {
         setSuccessMessage('')
-      }, 5000)
+      }, 1000)
 
     } catch (exception) {
       setErrorMessage('Wrong credentials')
       setTimeout(() => {
         setErrorMessage('')
-      }, 5000)
+      }, 1000)
     }
   }
 
@@ -79,7 +79,7 @@ const App = () => {
     setSuccessMessage('Logged out correctly')
     setTimeout(() => {
       setSuccessMessage('')
-    }, 5000)
+    }, 1000)
   }
 
   const changeUpdateBlogs = () => {

@@ -35,12 +35,12 @@ const CreateBlog = ({ blogs, setBlogs, notifications, blogList, createBlogTest }
         notifications.setSuccessMessage('Blog added correctly')
         setTimeout(() => {
           notifications.setSuccessMessage('')
-        }, 5000)
+        }, 1000)
       }).catch(error => {
         notifications.setErrorMessage('Blog can not be added')
         setTimeout(() => {
           notifications.setErrorMessage('')
-        }, 5000)
+        }, 1000)
       })
   }
 

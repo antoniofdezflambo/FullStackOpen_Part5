@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test'
 const { beforeEach, describe } = test
-import { loginWith, createBlog } from './helper'
-import { debug } from 'console'
+import { loginWith, createBlog, likeBlog } from './helper'
 
 describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
@@ -132,6 +131,53 @@ describe('Blog app', () => {
 
         const removeButton = await page.getByRole('button', { name: 'Remove' })
         await expect(removeButton).not.toBeVisible()
+      })
+    })
+
+    describe('and multiple blogs exist', () => {
+      beforeEach(async ({ page }) => {
+        await createBlog(page, 'Blog A', 'Author A', 'http://blogA.com')
+        await page.waitForTimeout(500)
+        await createBlog(page, 'Blog B', 'Author B', 'http://blogB.com')
+        await page.waitForTimeout(500)
+        await createBlog(page, 'Blog C', 'Author C', 'http://blogC.com')
+        await page.waitForTimeout(500)
+      })
+
+      test.only('blogs are sorted by likes in descending order', async ({ page }) => {
+        const blogs = await page.locator('.blog')
+
+        await expect(page.getByText('Blog A - Author A').locator('..')).toBeVisible()
+        await expect(page.getByText('Blog B - Author B').locator('..')).toBeVisible()
+        await expect(page.getByText('Blog C - Author C').locator('..')).toBeVisible()
+
+        let blogTitles = await blogs.allTextContents()
+        expect(blogTitles).toEqual([
+          'Blog A - Author A View',
+          'Blog B - Author B View',
+          'Blog C - Author C View'
+        ])
+
+        await likeBlog(page, 'Blog C')
+
+        await page.waitForTimeout(500)
+
+        blogTitles = await blogs.allTextContents()
+        expect(blogTitles).toEqual([
+          'Blog C - Author C View',
+          'Blog A - Author A View',
+          'Blog B - Author B View'
+        ])
+
+        await likeBlog(page, 'Blog B')
+        await likeBlog(page, 'Blog B')
+
+        blogTitles = await blogs.allTextContents()
+        expect(blogTitles).toEqual([
+          'Blog B - Author B View',
+          'Blog C - Author C View',
+          'Blog A - Author A View'
+        ])
       })
     })
   })

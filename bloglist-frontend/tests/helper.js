@@ -19,4 +19,18 @@ const createBlog = async (page, title, author, url) => {
   await createButton.click()
 }
 
-export { loginWith, createBlog }
+const likeBlog = async (page, blogTitle) => {
+  const searchedBlog = await page.getByText(blogTitle)
+  const viewDetails = await searchedBlog.getByRole('button', { name: 'View' })
+  await viewDetails.click()
+
+  const likeButton = await searchedBlog.getByRole('button', { name: 'Like' })
+  await likeButton.click()
+
+  await page.waitForTimeout(500)
+
+  const hideButton = await searchedBlog.getByRole('button', { name: 'Hide' })
+  await hideButton.click()
+}
+
+export { loginWith, createBlog, likeBlog }

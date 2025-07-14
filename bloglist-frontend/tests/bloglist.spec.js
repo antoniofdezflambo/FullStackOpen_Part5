@@ -112,6 +112,27 @@ describe('Blog app', () => {
         const deletedBlog = await page.getByText('Blog de prueba - Autor de prueba').locator('..')
         await expect(deletedBlog).not.toBeVisible()
       })
+
+      test('a blog cannot be removed by another user', async ({ page, request }) => {
+        await page.getByRole('button', { name: 'Logout' }).click()
+
+        await request.post('/api/users', {
+          data: {
+            username: 'anotherUser',
+            name: 'Another User',
+            password: 'password'
+          }
+        })
+
+        await loginWith(page, 'anotherUser', 'password')
+
+        const createdBlog = await page.getByText('Blog de prueba - Autor de prueba').locator('..')
+        const viewDetails = await createdBlog.getByRole('button', { name: 'View' })
+        await viewDetails.click()
+
+        const removeButton = await page.getByRole('button', { name: 'Remove' })
+        await expect(removeButton).not.toBeVisible()
+      })
     })
   })
 })

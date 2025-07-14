@@ -41,7 +41,7 @@ const Details = ({ blog, updateBlog, updateBlogs, notifications, onLikeTest }) =
           }, 1000)
         })
         .catch( () => {
-          notifications.setErrorMessage('Error: Cannot remove blog')
+          notifications.setErrorMessage('Blog can not be deleted')
           setTimeout(() => {
             notifications.setErrorMessage('')
           }, 1000)
@@ -54,7 +54,9 @@ const Details = ({ blog, updateBlog, updateBlogs, notifications, onLikeTest }) =
       <p>{blog.url}</p>
       <p>Likes: {blog.likes} <button onClick={like}>Like</button></p>
       <p>{blog.user.username}</p>
-      <button onClick={remove}>Remove</button>
+      {
+        blog.user.username === JSON.parse(window.localStorage.getItem('loggedUser')).username && <button onClick={remove}> Remove </button>
+      }
     </div>
   )
 }

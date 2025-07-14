@@ -73,43 +73,45 @@ describe('Blog app', () => {
       await expect(page.getByText('root')).toBeVisible()
     })
 
-    test('a blog can be liked', async ({ page }) => {
-      await createBlog(page, 'Blog de prueba', 'Autor de prueba', 'http://testblog.com')
+    describe('and a blog exists', () => {
+      beforeEach(async ({ page }) => {
+        await createBlog(page, 'Blog de prueba', 'Autor de prueba', 'http://testblog.com')
+      })
 
-      const createdBlog = await page.getByText('Blog de prueba - Autor de prueba').locator('..')
-      const viewDetails = await createdBlog.getByRole('button', { name: 'View' })
-      await viewDetails.click()
+      test('a blog can be liked', async ({ page }) => {
+        const createdBlog = await page.getByText('Blog de prueba - Autor de prueba').locator('..')
+        const viewDetails = await createdBlog.getByRole('button', { name: 'View' })
+        await viewDetails.click()
 
-      const likeButton = await page.getByRole('button', { name: 'Like' })
-      await likeButton.click()
+        const likeButton = await page.getByRole('button', { name: 'Like' })
+        await likeButton.click()
 
-      const likesText = await page.getByText('Likes: 1')
-      await expect(likesText).toBeVisible()
+        const likesText = await page.getByText('Likes: 1')
+        await expect(likesText).toBeVisible()
+      })
+
+      test('a blog can be removed by the user who created it', async ({ page }) => {
+        const createdBlog = await page.getByText('Blog de prueba - Autor de prueba').locator('..')
+        const viewDetails = await createdBlog.getByRole('button', { name: 'View' })
+        await viewDetails.click()
+
+        await page.on('dialog', async (dialog) => {
+          expect(dialog.type()).toBe('confirm')
+          expect(dialog.message()).toBe('Remove blog "Blog de prueba" by Autor de prueba?')
+          await dialog.accept()
+        })
+
+        const removeButton = await page.getByRole('button', { name: 'Remove' })
+        await removeButton.click()
+
+        const notification = await page.locator('.success', { hasText: 'Blog deleted correctly' })
+        await expect(notification).toBeVisible()
+        await expect(notification).toHaveCSS('border-style', 'solid')
+        await expect(notification).toHaveCSS('color', 'rgb(0, 128, 0)')
+
+        const deletedBlog = await page.getByText('Blog de prueba - Autor de prueba').locator('..')
+        await expect(deletedBlog).not.toBeVisible()
+      })
     })
   })
-
-  // test('a blog can be removed by the user who created it', async ({ page }) => {
-  //   await createBlog(page, 'Blog de prueba', 'Autor de prueba', 'http://testblog.com')
-
-  //   const createdBlog = await page.getByText('Blog de prueba - Autor de prueba').locator('..')
-  //   const viewDetails = await createdBlog.getByRole('button', { name: 'View' })
-  //   await viewDetails.click()
-
-  //   const removeButton = await page.getByRole('button', { name: 'Remove' })
-  //   await removeButton.click()
-
-  //   await page.on('dialog', async dialog => {
-  //     expect(dialog.type()).toBe('confirm')
-  //     expect(dialog.message()).toBe('Remove blog "Blog de prueba" by Autor de prueba?')
-  //     await dialog.accept()
-  //   })
-
-  //   const notification = await page.locator('.success', { hasText: 'Blog deleted correctly' })
-  //   await expect(notification).toBeVisible()
-  //   await expect(notification).toHaveCSS('border-style', 'solid')
-  //   await expect(notification).toHaveCSS('color', 'rgb(0, 128, 0)')
-
-  //   const deletedBlog = await page.getByText('Blog de prueba - Autor de prueba').locator('..')
-  //   await expect(deletedBlog).not.toBeVisible()
-  // })
 })

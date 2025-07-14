@@ -30,13 +30,14 @@ const CreateBlog = ({ blogs, setBlogs, notifications, blogList, createBlogTest }
         setAuthor('')
         setUrl('')
 
-        blogList.toggleVisibility()
+        blogList.current.toggleVisibility()
 
         notifications.setSuccessMessage('Blog added correctly')
         setTimeout(() => {
           notifications.setSuccessMessage('')
         }, 1000)
       }).catch(error => {
+        console.log(error)
         notifications.setErrorMessage('Blog can not be added')
         setTimeout(() => {
           notifications.setErrorMessage('')

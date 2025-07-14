@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 const { beforeEach, describe } = test
 import { loginWith, createBlog } from './helper'
+import { debug } from 'console'
 
 describe('Blog app', () => {
   beforeEach(async ({ page, request }) => {
@@ -54,8 +55,6 @@ describe('Blog app', () => {
     test('a new blog can be created', async ({ page }) => {
       await createBlog(page, 'Blog de prueba', 'Autor de prueba', 'http://testblog.com')
 
-      await page.waitForTimeout(2000)
-
       const notification = await page.locator('.success', { hasText: 'Blog added correctly' })
       await expect(notification).toBeVisible()
       await expect(notification).toHaveCSS('border-style', 'solid')
@@ -68,9 +67,7 @@ describe('Blog app', () => {
       await viewDetails.click()
       await expect(viewDetails).not.toBeVisible()
 
-      const hideDetails = await createdBlog.getByRole('button', { name: 'Hide' })
-      await expect(hideDetails).toBeVisible()
-
+      await expect(createdBlog.getByRole('button', { name: 'Hide' })).toBeVisible()
       await expect(page.getByText('http://testblog.com')).toBeVisible()
       await expect(page.getByText('Likes: 0')).toBeVisible()
       await expect(page.getByText('root')).toBeVisible()
@@ -90,4 +87,29 @@ describe('Blog app', () => {
       await expect(likesText).toBeVisible()
     })
   })
+
+  // test('a blog can be removed by the user who created it', async ({ page }) => {
+  //   await createBlog(page, 'Blog de prueba', 'Autor de prueba', 'http://testblog.com')
+
+  //   const createdBlog = await page.getByText('Blog de prueba - Autor de prueba').locator('..')
+  //   const viewDetails = await createdBlog.getByRole('button', { name: 'View' })
+  //   await viewDetails.click()
+
+  //   const removeButton = await page.getByRole('button', { name: 'Remove' })
+  //   await removeButton.click()
+
+  //   await page.on('dialog', async dialog => {
+  //     expect(dialog.type()).toBe('confirm')
+  //     expect(dialog.message()).toBe('Remove blog "Blog de prueba" by Autor de prueba?')
+  //     await dialog.accept()
+  //   })
+
+  //   const notification = await page.locator('.success', { hasText: 'Blog deleted correctly' })
+  //   await expect(notification).toBeVisible()
+  //   await expect(notification).toHaveCSS('border-style', 'solid')
+  //   await expect(notification).toHaveCSS('color', 'rgb(0, 128, 0)')
+
+  //   const deletedBlog = await page.getByText('Blog de prueba - Autor de prueba').locator('..')
+  //   await expect(deletedBlog).not.toBeVisible()
+  // })
 })

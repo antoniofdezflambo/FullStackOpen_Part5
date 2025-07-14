@@ -18,7 +18,7 @@ const Bloglist = ({ user, blogs, setBlogs, logout, notifications, updateBlogs })
         <Blog key={blog.id} blog={blog} updateBlogs={updateBlogs} notifications={notifications} />
       )}
       <Togglable buttonLabel='New blog' ref={blogListRef}>
-        <CreateBlog user={user} blogs={blogs} setBlogs={setBlogs} notifications={notifications} blogList={blogListRef.current} />
+        <CreateBlog user={user} blogs={blogs} setBlogs={setBlogs} notifications={notifications} blogList={blogListRef} />
       </Togglable>
     </>
   )
